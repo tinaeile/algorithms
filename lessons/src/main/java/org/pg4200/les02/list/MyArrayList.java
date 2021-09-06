@@ -67,7 +67,6 @@ public class MyArrayList<T> implements MyList<T> {
             //note that here "size" is a valid index
             throw new IndexOutOfBoundsException();
         }
-
         /*
             First we need to shift-right all elements starting from index.
             However, we need to make sure to do not overwrite existing elements
