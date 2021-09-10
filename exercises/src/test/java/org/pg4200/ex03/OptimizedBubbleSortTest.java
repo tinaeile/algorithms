@@ -93,4 +93,21 @@ public class OptimizedBubbleSortTest {
         assertEquals("e", array[4]);
         assertEquals("f", array[5]);
     }
+
+    @Test
+    public void testGameUsers() {
+        GameUser a = new GameUser("a", 10);
+        GameUser b = new GameUser("b", 5);
+        GameUser c = new GameUser("c", 2);
+        GameUser d = new GameUser("d", 5);
+
+        GameUser[] array = {a, b, c, d};
+        sorter.sort(array, new GameUserComparator(), true);
+
+        assertEquals("c", array[0].getUserId());
+        assertEquals("b", array[1].getUserId());
+        assertEquals("d", array[2].getUserId());
+        assertEquals("a", array[3].getUserId());
+
+    }
 }
