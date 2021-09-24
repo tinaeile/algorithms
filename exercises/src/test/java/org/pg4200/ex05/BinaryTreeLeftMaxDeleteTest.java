@@ -8,6 +8,6 @@ public class BinaryTreeLeftMaxDeleteTest extends MyMapBinarySearchTreeTest {
 
     @Override
     protected <K extends Comparable<K>, V> MyMapTreeBased<K, V> getTreeInstance() {
-        return new MyMapBinarySearchTree<>();
+        return new BinaryTreeLeftMaxDelete<>();
     }
 }
