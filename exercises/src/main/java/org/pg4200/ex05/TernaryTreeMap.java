@@ -166,14 +166,13 @@ public class TernaryTreeMap<K extends Comparable<K>, V> implements MyMapTreeBase
             if (subtreeRoot.right == null) {
                 subtreeRoot.secondKey = null;
                 subtreeRoot.secondValue = null;
-                return subtreeRoot;
             } else {
                 TreeNode min = min(subtreeRoot.right);
                 subtreeRoot.secondKey = min.firstKey;
                 subtreeRoot.secondValue = min.firstValue;
                 subtreeRoot.right = deleteMin(subtreeRoot.right);
-                return subtreeRoot;
             }
+            return subtreeRoot;
         }
 
         return subtreeRoot;
