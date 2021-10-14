@@ -7,7 +7,6 @@ public class MyArrayListResizeable<T> extends MyArrayList<T> {
     @Override
     public void add(int index, T value) {
         if (index < 0) {
-            //note that here "size" is a valid index
             throw new IndexOutOfBoundsException();
         }
 
@@ -15,9 +14,7 @@ public class MyArrayListResizeable<T> extends MyArrayList<T> {
             int newArraySize = data.length * 2;
             Object[] newData = new Object[newArraySize];
 
-            for (int i = 0; i < size; i++) {
-                newData[i] = data[i];
-            }
+            if (size >= 0) System.arraycopy(data, 0, newData, 0, size);
             data = newData;
         }
         super.add(index, value);

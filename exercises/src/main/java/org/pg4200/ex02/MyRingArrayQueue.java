@@ -17,90 +17,61 @@ public class MyRingArrayQueue<T> implements MyQueue<T> {
 
     @Override
     public void enqueue(T value) {
-        /**
-         * Insert a new element at the tail of the queue/line
-         */
-        if (isEmpty()) {
+        if (isEmpty()) { // Check if empty
             head = 0;
             tail = 0;
-        } else if (head <= tail) {
 
-            if (tail < data.length - 1) {
-                //there is space
-                tail++;
+        } else if (size() < data.length) { // Check if available space
+            if (tail == data.length - 1 && head != 0) { // if tail is at the end
+                tail = 0;
             } else {
-
-                if (head != 0) {
-                    tail = 0;
-                } else {
-                    //too many elements... let's just create a new array with double size
-                    Object[] tmp = new Object[data.length * 2];
-
-                    for (int i = 0; i < data.length; i++) {
-                        tmp[i] = data[i];
-                    }
-                    data = tmp;
-                    tail++;
-                }
+                tail++;
             }
         } else {
-            assert tail < head;
-            if (tail < head - 1) {
-                tail++;
-            } else {
-                Object[] tmp = new Object[data.length * 2];
+            //too many elements... let's just create a new array with double size
+            Object[] tmp = new Object[data.length * 2];
 
-                int k = data.length - head;
-                for (int i = 0; i < k; i++) {
-                    tmp[i] = data[head + i];
-                }
-
-                for (int i = 0; i < (tail + 1); i++) {
-                    tmp[k + i] = data[i];
-                }
-                head = 0;
-                tail = data.length;
-                data = tmp;
+            int k = data.length - head;
+            for (int i = 0; i < k; i++) {
+                tmp[i] = data[head + i];
             }
-        }
 
+            for (int i = 0; i < (tail + 1); i++) {
+                tmp[k + i] = data[i];
+            }
+
+            head = 0;
+            tail = data.length;
+            data = tmp;
+        }
         data[tail] = value;
     }
 
     @Override
     public T dequeue() {
-        /**
-         *  Remove and return the element at the head of the queue/line
-         */
-        if (isEmpty()) {
-            throw new RuntimeException();
+        if (isEmpty()) { // Check if empty
+            throw new RuntimeException("Queue is empty.");
         }
 
         T value = (T) data[head];
 
-        if (size() == 1) {
-            //now it ll be empty
+        if (head == tail) { // Check if 1 element, then empty
             head = -1;
             tail = -1;
+
+        } else if (head == data.length - 1) {
+            head = 0;
         } else {
             head++;
-            if (head >= data.length) {
-                head = 0;
-            }
         }
-
         return value;
     }
 
     @Override
     public T peek() {
-        /**
-         * Look at the head of the queue/line, without removing it
-         */
         if (isEmpty()) {
             throw new RuntimeException();
         }
-
         return (T) data[head];
     }
 
@@ -111,13 +82,11 @@ public class MyRingArrayQueue<T> implements MyQueue<T> {
         } else if (head == tail) {
             return 1;
         } else if (head < tail) {
-            //normal case
             return (tail - head) + 1;
         } else {
             int size = 0;
-            //add size based on all elements after head
+
             size += (data.length - head);
-            //then add all from 0 til tail
             size += tail + 1;
 
             return size;
