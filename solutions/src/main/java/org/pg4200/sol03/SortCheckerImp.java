@@ -1,5 +1,4 @@
 package org.pg4200.sol03;
-
 import org.pg4200.ex03.SortChecker;
 
 public class SortCheckerImp implements SortChecker {
