@@ -2,7 +2,15 @@ package org.pg4200.ex04;
 
 import org.pg4200.les03.sort.MySort;
 
+import java.util.Comparator;
+
 public class MixedSort implements MySort {
+
+    private final int bubbleLimit;
+
+    public MixedSort(int bubbleLimit) {
+        this.bubbleLimit = bubbleLimit;
+    }
 
     @Override
     public <T extends Comparable<T>> void sort(T[] array) {
@@ -17,22 +25,45 @@ public class MixedSort implements MySort {
 
     private <T extends Comparable<T>> void mergesort(int low, int high, T[] array, T[] buffer) {
 
-        if (low >= high) {
-            /*
-                This means we are in a subarea of array with 1 or less elements.
-                As such subarray is sorted by definition (ie less than 2 elements),
-                we do not need to do anything
-             */
+        if (high - low < bubbleLimit) {
+            bubbleSort(low, high, array);
             return;
         }
 
-        int middle = low + (high - low) / 2;
+        if (low < high) {
+            int middle = low + (high - low) / 2;
 
-        mergesort(low, middle, array, buffer);
+            mergesort(low, middle, array, buffer);
 
-        mergesort(middle + 1, high, array, buffer);
+            mergesort(middle + 1, high, array, buffer);
 
-        merge(low, middle, high, array, buffer);
+            merge(low, middle, high, array, buffer);
+        }
+    }
+
+    private <T extends Comparable<T>> void bubbleSort(int low, int high, T[] array) {
+
+        boolean swapped = true;
+        int lastSwap = high;
+
+        while (swapped) {
+
+            swapped = false;
+            int limit = lastSwap;
+
+            for (int i = low; i < limit; i++) {
+                int j = i + 1;
+
+                if (array[i].compareTo(array[j]) > 0) {
+                    T tmp = array[i];
+                    array[i] = array[j];
+                    array[j] = tmp;
+
+                    swapped = true;
+                    lastSwap = i;
+                }
+            }
+        }
     }
 
     private <T extends Comparable<T>> void merge(int low, int middle, int high, T[] array, T[] buffer) {
@@ -47,18 +78,19 @@ public class MixedSort implements MySort {
         //index over the right half, after middle
         int j = middle + 1;
 
-        for (int k = low; k <= high; k++) {
-            if (i > middle) {
+        int k = low;
+
+        while (i <= middle && j <= high) {
+            if (buffer[i].compareTo(buffer[j]) <= 0) {
                 //done with left half, just copy over the right
-                array[k] = buffer[j++];
-            } else if (j > high) {
-                //done with right half, just copy over the left
                 array[k] = buffer[i++];
-            } else if (buffer[j].compareTo(buffer[i]) < 0) {
-                array[k] = buffer[j++];
             } else {
-                array[k] = buffer[i++];
+                array[k] = buffer[j++];
             }
+            k++;
+        }
+        while (i <= middle) {
+            array[k++] = buffer[i++];
         }
     }
 }
