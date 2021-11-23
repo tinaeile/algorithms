@@ -10,7 +10,6 @@ import java.lang.reflect.Array;
  */
 public class HashMapLinearProbe<K, V> implements MyHashMap<K, V> {
 
-
     private final int M = 997;
 
     private class Entry {
@@ -121,7 +120,10 @@ public class HashMapLinearProbe<K, V> implements MyHashMap<K, V> {
     }
 
     private boolean isPresentButNotMatching(int i, K key) {
-       return i < data.length && data[i] != null && !key.equals(data[i].key);
+        // if index < array -> within array
+        // index != null -> space empty or occupied
+        // key != key = true
+        return i < data.length && data[i] != null && !key.equals(data[i].key);
     }
 
     @Override

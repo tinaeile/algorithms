@@ -196,7 +196,8 @@ public class TernaryTreeMap<K extends Comparable<K>, V> implements MyMapTreeBase
 
         if (subtreeRoot.left == null) {
             if (subtreeRoot.secondKey == null) {
-                return subtreeRoot.middle; //might be null
+                return subtreeRoot.middle;
+                //might be null
             } else {
                 moveSecondToFirst(subtreeRoot);
                 subtreeRoot.left = subtreeRoot.middle;
